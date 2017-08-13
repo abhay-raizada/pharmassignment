@@ -1,0 +1,115 @@
+{% include "pharmeasyflow/base.html" %}
+<br>
+Add Doctors
+<table>
+<tr>
+    <td>NAME</td>
+    <td>ADD</td>
+</tr>
+{% for doctor in all_doctors %}
+    <tr>
+        <td> {{ doctor.user.username }}
+        {% if doctor in patients_doctors %}
+        <td>Added</td>
+        {% else %}
+        <td>
+        <form action="patient_profile" method="get">
+        <button name="add" type="submit" value="{{ doctor.user.id }}">
+            Add
+        </button>
+        </form> </td>
+        <td> 
+        {% endif %}
+    </tr>
+    
+{% endfor %}
+</table>
+<br>
+Add Pharmacist
+<table>
+<tr>
+    <td>NAME</td>
+    <td>ADD</td>
+</tr>
+{% for pharm in all_pharmacists %}
+    
+    <tr>
+        <td> {{ pharm.user.username }}
+        {% if pharm not in patients_pharamacists %}
+        <td>Added</td>
+        {% else %}
+        <td> 
+        <form action="patient_profile" method="get">
+        <button name="add" type="submit" value="{{ pharm.user.id }}">
+            Add
+        </button>
+        </form> </td>
+        <td> 
+
+    </tr>
+    {% endif %}
+{% endfor %}
+</table>
+<br>
+ADDED DOCTORS:
+<table>
+<tr>
+    <td>NAME</td>
+    <td>STATUS</td>
+</tr>
+{% for doctor in patients_doctors %}
+<tr>
+    <td> {{ doctor.user.username }} </td>
+    {% if doctor.user.id in approved_users %}
+    <td> Approved </td>
+    {% elif doctor.user.id in pending_users %}
+    <td> Pending </td>
+    {% else %}
+    <td>Did not ask</td>
+    {% endif %} 
+</tr>
+{% endfor %}
+</table>
+<br>
+ADDED PHARMACISTS:
+<table>
+<tr>
+    <td>NAME</td>
+    <td>STATUS</td>
+</tr>
+{% for pharm in patients_pharmacists %}
+<tr>
+    <td> {{ pharm.user.username }} </td>
+    {% if doctor.user.id in approved_users %}
+    <td> Approved </td>
+    {% elif pharm.user.id in pending_users %}
+    <td> Pending </td>
+    {% else %}
+    <td>Did not ask</td>
+    {% endif %} 
+</tr>
+{% endfor %}
+</table>
+
+<br>
+Pending:
+<table>
+<tr>
+    <td>NAME</td>
+    <td>APPROVE</td>
+</tr>
+{% for usr in pending_users %}
+    <tr>
+        <td> {{ usr }}
+        <td> 
+        <form action="patient_profile" method="get">
+        <button name="approve" type="submit" value="{{ usr }}">
+            APPROVE
+        </button>
+        </form> </td>
+        <td> 
+
+    </tr>
+{% endfor %}
+</table>
+

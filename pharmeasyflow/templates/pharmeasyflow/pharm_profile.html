@@ -1,0 +1,31 @@
+{% include "pharmeasyflow/base.html" %}
+<table>
+<tr>
+    <td>NAME</td>
+    <td>MEDICAL HISTORY</td>
+    <td>REQUEST PERMISSION</td>
+</tr>
+{% for patient in all_patients %}
+    <tr>
+        <td> {{ patient.user.username }}
+    {% if patient in approved_patients %}
+        <td> patient.medical_history </td>
+        <td> Approval Granted
+    {% elif patient in pending_approval %}
+        <td>Not Authorized</td>
+        <td> Approval Pending </td>
+    {% else %}
+        <td>Not Authorized</td>
+        <td>
+        <form action="pharmacist_profile" method="get">
+            <button name="request_access" type="submit" value="{{ patient.user.id }}">
+            Request Access
+            </button>
+        </form>
+        </td>
+    {% endif %}
+
+    </tr>
+{% endfor %}
+</table>
+
